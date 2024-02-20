@@ -29,16 +29,19 @@ const puppeteer = require('puppeteer-core');
 const pie = require('puppeteer-in-electron');
 const { Client } = require('whatsapp-web-electron.js');
 
-const window = new BrowserWindow({
-    // your options...
-});
+pie.initialize(app,5050);
 
 pie.connect(app, puppeteer).then((pieBrowser) => {
-    const client = new Client(pieBrowser, window);
 
+    const window = new BrowserWindow({
+        // your options...
+    });
+    
+    const client = new Client(pieBrowser, window);
+    
     // No need to listen for "qr" event as you can scan
     // the qr code directly in electron window
-
+    
     client.on('ready', () => {
         console.log('Client is ready!');
     });
@@ -51,6 +54,7 @@ pie.connect(app, puppeteer).then((pieBrowser) => {
 
     client.initialize();
 });
+
 ```
 
 Take a look at [whatsapp-web.js example.js](https://github.com/pedroslopez/whatsapp-web.js/blob/master/example.js) for another example with more use cases. The only difference should be the initialization process and a few feature (explained below).
